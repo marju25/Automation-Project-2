@@ -7,8 +7,8 @@ describe('Issue delete', () => {
   beforeEach(() => {
     cy.visit('/');
     cy.url().should('eq', `${Cypress.env('baseUrl')}project/board`).then((url) => {
-    //open issue detail modal with title from line 16  
-    cy.contains(issueTitle).click();
+      //open issue detail modal with title from line 16  
+      cy.contains(issueTitle).click();
     });
   });
 
@@ -17,9 +17,21 @@ describe('Issue delete', () => {
 
   it('Should delete issue successfully', () => {
     //add steps to delete issue
+    const expectedAmountOfIssuesAfterDeletion = 3;
+    IssueModal.clickDeleteButton();
+    IssueModal.confirmDeletion();
+    IssueModal.ensureIssueIsNotVisibleOnBoard(issueTitle);
+    IssueModal.validateAmountOfIssuesInBacklog(expectedAmountOfIssuesAfterDeletion);
+
   });
 
   it('Should cancel deletion process successfully', () => {
     //add steps to start deletion proces but cancel it
+    const expectedAmountOfIssuesAfterCancel = 4;
+    IssueModal.clickDeleteButton();
+    IssueModal.cancelDeletion();
+    IssueModal.ensureIssueIsVisibleOnBoard(issueTitle);
+    IssueModal.validateAmountOfIssuesInBacklog(expectedAmountOfIssuesAfterCancel);
+
   });
 });
