@@ -3,6 +3,7 @@
  */
 import IssueModal from "../../pages/IssueModal";
 
+
 describe('Issue delete', () => {
   beforeEach(() => {
     cy.visit('/');
@@ -30,6 +31,7 @@ describe('Issue delete', () => {
     const expectedAmountOfIssuesAfterCancel = 4;
     IssueModal.clickDeleteButton();
     IssueModal.cancelDeletion();
+    IssueModal.closeDetailModal();
     IssueModal.ensureIssueIsVisibleOnBoard(issueTitle);
     IssueModal.validateAmountOfIssuesInBacklog(expectedAmountOfIssuesAfterCancel);
 

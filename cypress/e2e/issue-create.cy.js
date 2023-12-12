@@ -11,11 +11,6 @@ describe('Issue create', () => {
     //System finds modal for creating issue and does next steps inside of it
     cy.get('[data-testid="modal:issue-create"]').within(() => {
 
-      //open issue type dropdown and choose Story
-      cy.get('[data-testid="select:type"]').click();
-      cy.get('[data-testid="select-option:Story"]')
-        .trigger('click');
-
       //Type value to description input field
       cy.get('.ql-editor').type('TEST_DESCRIPTION');
 
@@ -23,6 +18,11 @@ describe('Issue create', () => {
       //Order of filling in the fields is first description, then title on purpose
       //Otherwise filling title first sometimes doesn't work due to web page implementation
       cy.get('input[name="title"]').type('TEST_TITLE');
+
+      //open issue type dropdown and choose Story
+      cy.get('[data-testid="select:type"]').click();
+      cy.get('[data-testid="select-option:Story"]')
+        .trigger('click');
 
       //Select Lord Gaben from reporter dropdown
       cy.get('[data-testid="select:userIds"]').click();
