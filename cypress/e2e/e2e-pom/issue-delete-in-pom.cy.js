@@ -17,7 +17,7 @@ describe('Issue delete', () => {
   const issueTitle = 'This is an issue of type: Task.';
 
   it('Should delete issue successfully', () => {
-    //add steps to delete issue
+    //add steps to delete issue and confirm that after deletion 3 issues are visible
     const expectedAmountOfIssuesAfterDeletion = 3;
     IssueModal.clickDeleteButton();
     IssueModal.confirmDeletion();
@@ -27,7 +27,7 @@ describe('Issue delete', () => {
   });
 
   it('Should cancel deletion process successfully', () => {
-    //add steps to start deletion proces but cancel it
+    //add steps to start deletion proces but cancel it and confirm that after canceling the deletion 4 issues are visible
     const expectedAmountOfIssuesAfterCancel = 4;
     IssueModal.clickDeleteButton();
     IssueModal.cancelDeletion();

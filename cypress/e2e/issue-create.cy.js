@@ -71,7 +71,7 @@ describe('Issue create', () => {
   //Assignment 2
   //Custom issue creation
 
-  it('Custom Issue Creation', () => {
+  it('Custom Issue Creation - "Bug"', () => {
     //System finds modal for creating issue and does next steps inside of it
     cy.get('[data-testid="modal:issue-create"]').within(() => {
 
@@ -88,10 +88,12 @@ describe('Issue create', () => {
       //Select Pickle Rick from reporter dropdown
       cy.get('[data-testid="select:reporterId"]').click();
       cy.get('[data-testid="select-option:Pickle Rick"]').click();
+
+      //Select assignee
       cy.get('[data-testid="select:userIds"]').click();
       cy.get('[data-testid="select-option:Pickle Rick"]').click();
 
-      //Select highest from priority dropdown
+      //Select "highest" from priority dropdown
       cy.get('[data-testid="select:priority"]').click();
       cy.get('[data-testid="select-option:Highest"]').click();
 
@@ -132,12 +134,18 @@ describe('Issue create', () => {
     //System finds modal for creating issue and does next steps inside of it
     cy.get('[data-testid="modal:issue-create"]').within(() => {
 
+      // Issue type "Task"
+      cy.get('[data-testid="select:type"]').contains('Task');
+      cy.get('[data-testid="icon:task"]').should('be.visible');
+
       //Type value to description input field
-      cy.get('.ql-editor:last').type(randomWords);
+      cy.get('.ql-editor:last').type(issueDescription);
 
       //Select "Baby Yoda" from reporter dropdown
       cy.get('[data-testid="select:reporterId"]').click();
-      cy.get('[data-testid="select-option:Baby Yoda"]').click()
+      cy.get('[data-testid="select-option:Baby Yoda"]').click();
+
+      //Select assignee
       cy.get('[data-testid="select:userIds"]').click();
       cy.get('[data-testid="select-option:Baby Yoda"]').click();
 
@@ -148,7 +156,7 @@ describe('Issue create', () => {
         .trigger('click');
 
       //Type value to title input field
-      cy.get('input[name="title"]:first').type(randomWord)
+      cy.get('input[name="title"]:first').type(issueTitle);
 
       //Click on button "Create issue"
       cy.get('button[type="submit"]').click();
@@ -174,6 +182,7 @@ describe('Issue create', () => {
           .should('have.length', '5')
           .first()
           .find('p')
+          .contains(issueTitle);
 
         //Assert that correct avatar and type icon are visible
         cy.get('[data-testid="avatar:Baby Yoda"]').should('be.visible');
@@ -184,7 +193,6 @@ describe('Issue create', () => {
 
 import { faker } from '@faker-js/faker';
 
-const randomWord = faker.lorem.word()
-const numberOfWords = 5
-const randomWords = faker.lorem.words(numberOfWords)
+const issueTitle = faker.lorem.word()
+const issueDescription = faker.lorem.words()
 
