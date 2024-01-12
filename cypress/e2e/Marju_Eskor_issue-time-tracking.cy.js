@@ -17,9 +17,9 @@ describe("AUTOMATION TESTS FOR TIME TRACKING FUNCTIONALITY", () => {
   const editedEstimatedTime = "20";
   const timeSpent = "Time spent (hours)";
   const timeRemaining = "Time remaining (hours)";
-  const spentTime = "2";
+  const loggedTime = "2";
   const remainingTime = "5";
-  const editedSpentTime = "3";
+  const editedLoggedTime = "3";
   const editedRemainingTime = "6";
   const stopwatch = '[data-testid="icon:stopwatch"]';
 
@@ -51,7 +51,7 @@ describe("AUTOMATION TESTS FOR TIME TRACKING FUNCTIONALITY", () => {
     cy.get(stopwatch).click();
     getIssueTimeTrackingModal().within(() => {
       cy.contains(timeSpent);
-      cy.get('input[placeholder="Number"][value="4"]').clear().type(spentTime);
+      cy.get('input[placeholder="Number"][value="4"]').clear().type(loggedTime);
       cy.contains(timeRemaining);
       cy.get('input[placeholder="Number"][value=""]').type(remainingTime);
       cy.contains("button", "Done").click();
@@ -67,7 +67,7 @@ describe("AUTOMATION TESTS FOR TIME TRACKING FUNCTIONALITY", () => {
       cy.contains(timeSpent);
       cy.get('input[placeholder="Number"][value="2"]')
         .clear()
-        .type(editedSpentTime);
+        .type(editedLoggedTime);
       cy.contains(timeRemaining);
       cy.get('input[placeholder="Number"][value="5"]')
         .clear()

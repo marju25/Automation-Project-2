@@ -1,3 +1,5 @@
+import { faker } from "@faker-js/faker";
+
 describe("Issue create", () => {
   beforeEach(() => {
     cy.visit("/");
@@ -184,9 +186,65 @@ describe("Issue create", () => {
         cy.get('[data-testid="icon:task"]').should("be.visible");
       });
   });
+
+  it("Should validate title is required field if missing", () => {
+    cy.get('[data-testid="modal:issue-create"]').within(() => {
+      cy.get('button[type="submit"]').click();
+
+      //Assert that error message is visible
+      cy.get('[data-testid="form-field:title"]').should(
+        "contain",
+        "This field is required"
+      );
+    });
+  });
+
+  const issueTitle = faker.lorem.word();
+  const issueDescription = faker.lorem.words();
+
+  // Task 3 (Sprint#2 Bonus)
+  it("Should remove unnecessary spaces on the board view", () => {
+    const title = " Hello   world!";
+    const trimmedTitleText = title.trim();
+    const issueDescription = faker.lorem.words();
+
+    cy.get('[data-testid="modal:issue-create"]').within(() => {
+      // Create the issue
+      cy.get('[data-testid="select:type"]').contains("Task");
+      cy.get('[data-testid="icon:task"]').should("be.visible");
+
+      cy.get(".ql-editor").type(issueDescription);
+
+      cy.get('[data-testid="select:reporterId"]').click();
+      cy.get('[data-testid="select-option:Baby Yoda"]').click();
+
+      cy.get('[data-testid="select:userIds"]').click();
+      cy.get('[data-testid="select-option:Baby Yoda"]').click();
+
+      cy.get('[data-testid="select:priority"]').click();
+      cy.get('[data-testid="select-option:Low"]').click();
+
+      cy.get('input[name="title"]').type(title);
+
+      cy.get('button[type="submit"]').click();
+    });
+
+    cy.get('[data-testid="modal:issue-create"]').should("not.exist");
+    cy.contains("Issue has been successfully created.").should("be.visible");
+
+    // Reload the page
+    cy.reload();
+
+    // Check that the issue is on the board and does not have leading and trailing spaces in it
+    cy.get('[data-testid="board-list:backlog')
+      .should("be.visible")
+      .and("have.length", "1")
+      .within(() => {
+        cy.get('[data-testid="list-issue"]')
+          .should("have.length", "5")
+          .first()
+          .find("p")
+          .should("contain", trimmedTitleText);
+      });
+  });
 });
-
-import { faker } from "@faker-js/faker";
-
-const issueTitle = faker.lorem.word();
-const issueDescription = faker.lorem.words();
